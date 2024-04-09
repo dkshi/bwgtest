@@ -1,0 +1,126 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API Сервер для управления котировками",
+        "title": "REST API test service for BWG",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/quotations/get": {
+            "get": {
+                "description": "Возвращает котировку по идентификатору обновления",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotations"
+                ],
+                "summary": "Получить котировку по идентификатору",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Идентификатор обновления",
+                        "name": "id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.quotationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/quotations/latest": {
+            "get": {
+                "description": "Возвращает последнее валидное значение котировки",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotations"
+                ],
+                "summary": "Получить последнее значение котировки",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Базовая валюта",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Котируемая валюта",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.quotationResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/quotations/update": {
+            "get": {
+                "description": "Создаёт новый запрос на обновление котировки",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "quotations"
+                ],
+                "summary": "Обновить котировку",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Базовая валюта",
+                        "name": "from",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Котируемая валюта",
+                        "name": "to",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.quotationResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "rate": {
+                    "type": "number"
+                },
+                "update_time": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

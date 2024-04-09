@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  db:
+    restart: always
+    image: postgres
+    ports:
+      - "${DB_PORT}:5432" 
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT} 
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_SSLMODE=${DB_SSLMODE}
+      - PORT=${PORT}
+      - TIME_LOCATION=${TIME_LOCATION}
+    volumes:
+      - ./migrations:/app/migrations
+    ports:
+      - "${PORT}:8080" 
+    depends_on:
+      - db

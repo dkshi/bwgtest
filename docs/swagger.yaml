@@ -1,0 +1,82 @@
+basePath: /
+definitions:
+  handler.quotationResponse:
+    properties:
+      code:
+        type: string
+      rate:
+        type: number
+      update_time:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API Сервер для управления котировками
+  title: REST API test service for BWG
+  version: "1.0"
+paths:
+  /quotations/get:
+    get:
+      description: Возвращает котировку по идентификатору обновления
+      parameters:
+      - description: Идентификатор обновления
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.quotationResponse'
+      summary: Получить котировку по идентификатору
+      tags:
+      - quotations
+  /quotations/latest:
+    get:
+      description: Возвращает последнее валидное значение котировки
+      parameters:
+      - description: Базовая валюта
+        in: query
+        name: from
+        type: string
+      - description: Котируемая валюта
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.quotationResponse'
+      summary: Получить последнее значение котировки
+      tags:
+      - quotations
+  /quotations/update:
+    get:
+      description: Создаёт новый запрос на обновление котировки
+      parameters:
+      - description: Базовая валюта
+        in: query
+        name: from
+        type: string
+      - description: Котируемая валюта
+        in: query
+        name: to
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Обновить котировку
+      tags:
+      - quotations
+swagger: "2.0"
