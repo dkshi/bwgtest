@@ -98,10 +98,11 @@ func (s *QuotationsService) ListenQuotationUpdates() {
 	for {
 		q := <-quotationChannel
 
-		err := s.UpdateQuotation(&q)
-		if err != nil {
-			logrus.Printf("error updating quotation: %s", err.Error())
-			continue
-		}
+		go func(q *bwgtest.Quotation) {
+			err := s.UpdateQuotation(q)
+			if err != nil {
+				logrus.Printf("error updating quotation: %s", err.Error())
+			}
+		}(&q)
 	}
 }
